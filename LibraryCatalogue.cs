@@ -1,11 +1,12 @@
+
 namespace LibraryCatalogue
 {
     class Book
     {
         public string Title { get; }
-        public string Author;
-        public string ISBN;
-        public int PublicationYear;
+        public string Author { get; }
+        public string ISBN { get; }
+        public int PublicationYear { get; }
 
         public Book(string Title, string Author, string ISBN, int PublicationYear)
         {
@@ -18,8 +19,8 @@ namespace LibraryCatalogue
     class MediaItem
     {
         public string Title { get; }
-        public string MediaType;
-        public int Duration;
+        public string MediaType { get; }
+        public int Duration { get; }
 
         public MediaItem(string Title, string MediaType, int Duration)
         {
@@ -60,6 +61,24 @@ namespace LibraryCatalogue
         {
             MediaItems.Remove(mediaItem);
         }
+        public List<object> SearchLibrary(string query)
+        {
+            var trimmedQuery = query.Trim();
+
+            var filteredBooks = Books.Where(book =>
+                book.Title.Equals(trimmedQuery, StringComparison.OrdinalIgnoreCase) ||
+                book.Author.Equals(trimmedQuery, StringComparison.OrdinalIgnoreCase) ||
+                book.ISBN.Equals(trimmedQuery, StringComparison.OrdinalIgnoreCase));
+
+            var filteredMediaItems = MediaItems.Where(mediaItem =>
+                mediaItem.Title.Equals(trimmedQuery, StringComparison.OrdinalIgnoreCase) ||
+                mediaItem.MediaType.Equals(trimmedQuery, StringComparison.OrdinalIgnoreCase));
+
+            var combinedList = filteredBooks.Cast<object>().Concat(filteredMediaItems.Cast<object>()).ToList();
+
+            return combinedList;
+        }
+
         public void PrintCatalog()
         {
             Console.WriteLine("List of books");
@@ -96,6 +115,10 @@ namespace LibraryCatalogue
             library.AddMediaItem(mediaItem3);
 
             library.PrintCatalog();
+
+            Console.WriteLine(library.SearchLibrary("Movie").Count);
+            Console.WriteLine(library.SearchLibrary("Song").Count);
+            Console.WriteLine(library.SearchLibrary("Moby Dick").Count);
 
             library.RemoveBook(book1);
             library.RemoveMediaItem(mediaItem1);
