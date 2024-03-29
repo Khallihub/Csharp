@@ -1,3 +1,4 @@
+using Blog.Validator;
 using Blog.Data;
 using Blog.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,12 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Comment comment)
         {
+            var Validator = new CommentValidator();
+            var result = Validator.Validate(comment);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
             if (_context == null)
             {
                 return NotFound();
@@ -41,6 +48,12 @@ namespace Blog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Comment comment)
         {
+            var Validator = new CommentValidator();
+            var result = Validator.Validate(comment);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
             if (_context == null)
             {
                 return NotFound();

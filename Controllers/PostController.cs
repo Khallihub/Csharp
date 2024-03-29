@@ -1,5 +1,6 @@
 using Blog.Data;
 using Blog.Entities;
+using Blog.Validator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,12 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Post post)
         {
+            var validator = new PostValidator();
+            var result = validator.Validate(post);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
             if (_context == null)
             {
                 return NotFound();
@@ -70,6 +77,12 @@ namespace Blog.Controllers
         [HttpPatch]
         public async Task<IActionResult> Update(Post post)
         {
+            var validator = new PostValidator();
+            var result = validator.Validate(post);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
             if (_context == null)
             {
                 return NotFound();

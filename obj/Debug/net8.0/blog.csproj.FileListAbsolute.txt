@@ -103,3 +103,5 @@ D:\code\C#\blog\obj\Debug\net8.0\refint\blog.dll
 D:\code\C#\blog\obj\Debug\net8.0\blog.pdb
 D:\code\C#\blog\obj\Debug\net8.0\blog.genruntimeconfig.cache
 D:\code\C#\blog\obj\Debug\net8.0\ref\blog.dll
+D:\code\C#\blog\bin\Debug\net8.0\FluentValidation.dll
+D:\code\C#\blog\obj\Debug\net8.0\blog.sourcelink.json
